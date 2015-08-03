@@ -38,9 +38,12 @@ circles = let mkCircle colour point = circle 50 |> filled colour |> move point
               colours = replicate 2 rgbs
           in L.map2 mkCircle colours centres
 
+button = let (Just c) = L.head rgbs in
+         circle 50 |> filled c |> move (0,400)
+
 -- Origin is centre of the square.
 main : Element
-main = collage 800 800 circles
+main = collage 800 800  (button :: circles)
 
 rgbs =  L.map3 rgb
           [64 , 133, 102, 242, 238]
