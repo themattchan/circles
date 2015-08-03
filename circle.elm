@@ -11,9 +11,10 @@ type alias Rad   = Float
 
 -- Given N circles to pack in the semicircle, find the ith angle offset from the
 -- positive x-axis, travelling clockwise.
--- centerAngle : Int -> Int -> Float
+centerAngle : number -> number -> Float
 centerAngle n i = (pi * ((2 * i) - 1)) / (2 * n)
 
+mirrorAngle : Rad -> Rad
 mirrorAngle ang = ang * (-1)
 
 -- Given the radius of the semicircle R, and a list of angle offsets for the
@@ -30,9 +31,11 @@ translate (ax,ay) (x,y) = (ax + x, ay + y)
 replicate : Int -> List a -> List a
 replicate n xs = L.foldl (\_ a -> xs ++ a) [] [1..n]
 
+mkCircle : Float -> Color -> Point -> Form
 mkCircle radius colour centre =
   circle radius |> filled colour |> move centre
 
+circles : List Form
 circles = let centres = L.map
                           (  translate (0, 100)
                           << centerCoord 100
@@ -42,6 +45,7 @@ circles = let centres = L.map
               colours = replicate 2 rgbs
           in L.map2 (mkCircle 25) colours centres
 
+button : Form
 button = let (Just c) = L.head rgbs in
          mkCircle 50 c (0,100)
 
@@ -49,6 +53,7 @@ button = let (Just c) = L.head rgbs in
 main : Element
 main = collage 400 200 (button :: circles)
 
+rgbs : List Color
 rgbs = L.map3 rgb
          [64 , 133, 102, 242, 238]
          [174, 158, 102, 161, 87 ]
