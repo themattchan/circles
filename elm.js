@@ -1931,14 +1931,22 @@ Elm.Main.make = function (_elm) {
                 ,102
                 ,17
                 ,30]));
+   var mkCircle = F3(function (radius,
+   colour,
+   centre) {
+      return $Graphics$Collage.move(centre)($Graphics$Collage.filled(colour)($Graphics$Collage.circle(radius)));
+   });
    var button = function () {
       var _raw = $List.head(rgbs),
       $ = _raw.ctor === "Just" ? _raw : _U.badCase($moduleName,
-      "on line 41, column 25 to 36"),
+      "on line 45, column 25 to 36"),
       c = $._0;
-      return $Graphics$Collage.move({ctor: "_Tuple2"
-                                    ,_0: 0
-                                    ,_1: 400})($Graphics$Collage.filled(c)($Graphics$Collage.circle(50)));
+      return A3(mkCircle,
+      50,
+      c,
+      {ctor: "_Tuple2"
+      ,_0: 0
+      ,_1: 400});
    }();
    var replicate = F2(function (n,
    xs) {
@@ -1977,9 +1985,9 @@ Elm.Main.make = function (_elm) {
              ,_0: r * $Basics.cos(theta)
              ,_1: r * $Basics.sin(theta)};
    });
-   var mirrorAngles = $List.map(function (x) {
-      return x * -1;
-   });
+   var mirrorAngle = function (ang) {
+      return ang * -1;
+   };
    var centerAngle = F2(function (n,
    i) {
       return $Basics.pi * (2 * i - 1) / (2 * n);
@@ -1988,18 +1996,15 @@ Elm.Main.make = function (_elm) {
       var colours = A2(replicate,
       2,
       rgbs);
-      var angles = A2($List.map,
-      centerAngle(5),
+      var centres = A2($List.map,
+      function ($) {
+         return translate({ctor: "_Tuple2"
+                          ,_0: 0
+                          ,_1: 400})(centerCoord(300.0)(mirrorAngle(centerAngle(5)($))));
+      },
       _L.range(1,5));
-      var centres = $List.map(translate({ctor: "_Tuple2"
-                                        ,_0: 0
-                                        ,_1: 400}))($List.map(centerCoord(300.0))(mirrorAngles(angles)));
-      var mkCircle = F2(function (colour,
-      point) {
-         return $Graphics$Collage.move(point)($Graphics$Collage.filled(colour)($Graphics$Collage.circle(50)));
-      });
       return A3($List.map2,
-      mkCircle,
+      mkCircle(50),
       colours,
       centres);
    }();
@@ -2011,10 +2016,11 @@ Elm.Main.make = function (_elm) {
    circles));
    _elm.Main.values = {_op: _op
                       ,centerAngle: centerAngle
-                      ,mirrorAngles: mirrorAngles
+                      ,mirrorAngle: mirrorAngle
                       ,centerCoord: centerCoord
                       ,translate: translate
                       ,replicate: replicate
+                      ,mkCircle: mkCircle
                       ,circles: circles
                       ,button: button
                       ,main: main

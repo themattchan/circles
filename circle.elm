@@ -14,7 +14,7 @@ type alias Rad   = Float
 -- centerAngle : Int -> Int -> Float
 centerAngle n i = (pi * ((2 * i) - 1)) / (2 * n)
 
-mirrorAngles = L.map (\x -> x * (-1))
+mirrorAngle ang = ang * (-1)
 
 -- Given the radius of the semicircle R, and a list of angle offsets for the
 -- centers of the buttons, find the center coordinates of the buttons, relative
@@ -30,16 +30,20 @@ translate (ax,ay) (x,y) = (ax + x, ay + y)
 replicate : Int -> List a -> List a
 replicate n xs = L.foldl (\_ a -> xs ++ a) [] [1..n]
 
-circles = let mkCircle colour point = circle 50 |> filled colour |> move point
-              angles  = L.map (centerAngle 5) [1..5]
-              centres = L.map (translate (0, 400)) <|
-                        L.map (centerCoord 300.0)  <|
-                         mirrorAngles angles
+mkCircle radius colour centre =
+  circle radius |> filled colour |> move centre
+
+circles = let centres = L.map
+                         (  translate (0, 400)
+                         << centerCoord 300.0
+                         << mirrorAngle
+                         << centerAngle 5
+                         )  [1..5]
               colours = replicate 2 rgbs
-          in L.map2 mkCircle colours centres
+          in L.map2 (mkCircle 50) colours centres
 
 button = let (Just c) = L.head rgbs in
-         circle 50 |> filled c |> move (0,400)
+         mkCircle 50 c (0,400)
 
 -- Origin is centre of the square.
 main : Element
