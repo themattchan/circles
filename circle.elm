@@ -34,8 +34,8 @@ mkCircle radius colour centre =
   circle radius |> filled colour |> move centre
 
 circles = let centres = L.map
-                         (  translate (0, 400)
-                         << centerCoord 300.0
+                         ( translate (0, 400)
+                         << centerCoord 300
                          << mirrorAngle
                          << centerAngle 5
                          )  [1..5]
