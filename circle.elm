@@ -35,12 +35,12 @@ mkCircle radius colour centre =
 
 circles = let centres = L.map
                          (  translate (0, 400)
-                         << centerCoord 300
+                         << centerCoord 100
                          << mirrorAngle
                          << centerAngle 5
                          )  [1..5]
               colours = replicate 2 rgbs
-          in L.map2 (mkCircle 50) colours centres
+          in L.map2 (mkCircle 25) colours centres
 
 button = let (Just c) = L.head rgbs in
          mkCircle 50 c (0,400)
