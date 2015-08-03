@@ -34,11 +34,11 @@ mkCircle radius colour centre =
   circle radius |> filled colour |> move centre
 
 circles = let centres = L.map
-                         (  translate (0, 100)
-                         << centerCoord 100
-                         << mirrorAngle
-                         << centerAngle 5
-                         )  [1..5]
+                          (  translate (0, 100)
+                          << centerCoord 100
+                          << mirrorAngle
+                          << centerAngle 5
+                          )  [1..5]
               colours = replicate 2 rgbs
           in L.map2 (mkCircle 25) colours centres
 
@@ -47,9 +47,9 @@ button = let (Just c) = L.head rgbs in
 
 -- Origin is centre of the square. Collage is w, h
 main : Element
-main = collage 400 200  (button :: circles)
+main = collage 400 200 (button :: circles)
 
-rgbs =  L.map3 rgb
-          [64 , 133, 102, 242, 238]
-          [174, 158, 102, 161, 87 ]
-          [122, 211, 102, 17 , 30 ]
+rgbs = L.map3 rgb
+         [64 , 133, 102, 242, 238]
+         [174, 158, 102, 161, 87 ]
+         [122, 211, 102, 17 , 30 ]
