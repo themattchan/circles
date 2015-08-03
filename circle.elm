@@ -1,7 +1,7 @@
-import Color exposing (..)
+import Color            exposing (..)
 import Graphics.Element exposing (..)
 import Graphics.Collage exposing (..)
-import List as L
+import List             as       L
 import Text
 
 {- Pack circle buttons around a semicircle -}
@@ -34,7 +34,7 @@ mkCircle radius colour centre =
   circle radius |> filled colour |> move centre
 
 circles = let centres = L.map
-                         (  translate (0, 400)
+                         (  translate (0, 100)
                          << centerCoord 100
                          << mirrorAngle
                          << centerAngle 5
@@ -43,11 +43,11 @@ circles = let centres = L.map
           in L.map2 (mkCircle 25) colours centres
 
 button = let (Just c) = L.head rgbs in
-         mkCircle 50 c (0,400)
+         mkCircle 50 c (0,100)
 
--- Origin is centre of the square.
+-- Origin is centre of the square. Collage is w, h
 main : Element
-main = collage 800 800  (button :: circles)
+main = collage 400 200  (button :: circles)
 
 rgbs =  L.map3 rgb
           [64 , 133, 102, 242, 238]
